@@ -1,2 +1,3 @@
 # leet-code-101
-Learn LeetCode
+
+Ceritanya belajar leetcode sambil pencitraan di github biar ijo-ijo commit nya 😅.
