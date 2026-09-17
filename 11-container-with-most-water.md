@@ -23,3 +23,12 @@ rumus luas adalah Panjang x Lebar
 = (8 - 1) x (7)
 = 7 x 7
 = 49
+
+Jadi logic solving-nya:
+
+- ada 2 pointer kiri dan kanan
+- variable result = 0, buat nampung hasil kalkulasi luas
+- variable rightIndex buat nampung posisi pointer sebelah kanan
+- loop biasa dengan index 0 buat pointer kiri
+- ketika pointer kiri < rightIndex maka loop seperti biasa buat ambil luas, tapi
+- kiri > rightIndex maka pakai while loop buat kurangi rightIndex--, lalu hitung luas dan ambil maksimal value dari result
