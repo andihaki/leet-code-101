@@ -43,3 +43,88 @@ for (const val of zeroes) {
   }
 }
 ```
+
+# cara yang bener
+
+space complexity: O(1)
+time complexity: O(m.n)
+https://youtu.be/T41rL0L3Pnw?t=506
+
+Hmmm, masih kurang paham, tapi kurang lebih summary nya:
+
+1. row/column baris pertama = marker, apakah row / column perlu di 0 kan
+2. apply 0 marker tadi ke inner cells
+3. column pertama di 0-kan kalo `matrix[0][0] === 0`
+4. row pertama di 0-kan kalo `rowZero = true`
+
+## visualisasi
+
+```
+        col0    col1    col2
+row0   [ c0 ]  [ c1 ]  [ c2 ]   <- column markers
+row1   [ r1 ]  [    ]  [    ]
+row2   [ r2 ]  [    ]  [    ]
+```
+
+```
+1 1 1
+1 0 1
+1 1 1
+```
+
+## Step / block 1
+
+"ku tandai kau", row sama kolom pertama di `0` in
+
+```javascript
+matrix[0][j] = 0;
+if (i > 0) {
+  matrix[i][0] = 0;
+}
+```
+
+```
+1 0 1
+0 0 1
+1 1 1
+```
+
+`rowZero` tetap 1, karna `matrix[i][j]` bukan 0 => `if (matrix[i][j] === 0) {`
+
+## 2
+
+ubah
+
+```
+1 0 1
+0 0 1
+1 1 1
+```
+
+jadi
+
+```
+1 0 1
+0 0 0
+1 0 1
+```
+
+"kok bisa?" karna row/kolom index 0 adalah marker. maka loop index mulai index ke-1.
+
+```javascript
+for (let i = 1; i < row; i++) {
+    for (let j = 1; j < column; j++) {
+      if (matrix[0][j] === 0 || matrix[i][0] === 0) {
+        matrix[i][j] = 0;
+```
+
+## 3
+
+inner circle (row column indeks > 0) udah di-0-in.
+lanjut cek KOLOM indeks ke-0 perlu di 0-in ga?:
+`if (matrix[0][0] === 0) {`
+
+## 4
+
+terakhir ROW indeks ke-0 perlu di 0-in?
+`if (rowZero) {`
