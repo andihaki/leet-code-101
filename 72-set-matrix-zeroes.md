@@ -52,7 +52,7 @@ https://youtu.be/T41rL0L3Pnw?t=506
 
 Hmmm, masih kurang paham, tapi kurang lebih summary nya:
 
-1. row/column baris pertama = marker, apakah row / column perlu di 0 kan
+1. row/column baris pertama = marker buat nentuin apakah row / column index selanjutnya perlu di 0 kan
 2. apply 0 marker tadi ke inner cells
 3. column pertama di 0-kan kalo `matrix[0][0] === 0`
 4. row pertama di 0-kan kalo `rowZero = true`
