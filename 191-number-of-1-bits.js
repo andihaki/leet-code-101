@@ -5,7 +5,8 @@
 var hammingWeight = function (n) {
   let counter = 0;
 
-  while (n > 0) {
+  //   while (n > 0) {
+  while (n) {
     if (n % 2 !== 0) counter += 1;
     // result += n % 2 === 0 ? 0 : 1;
     n = Math.floor(n / 2);
