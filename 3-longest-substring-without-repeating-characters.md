@@ -23,9 +23,28 @@ Notice that the answer must be a substring, "pwke" is a subsequence and not a su
 
 # solusi
 
-dah nyoba pake array tapi, kurang OK. ternyata pakai `Set` + sliding window lebih mudah dipahami.
+Dah nyoba pake array tapi, kurang OK. ternyata pakai `Set` + sliding window lebih mudah dipahami.
+Jadi pointer kiri dan kanan di geser 1x kekanan kalo value nya duplicate:
 
-- karna Set = uniqu
+```
+const set = new Set();
+let left = 0;
+let maxLength = 0;
+
+for (let right=0; right<s.length; right++) {
+    const char = s[right];
+
+    while (set.has(char)) {
+        set.delete(s[left])
+        left++
+    }
+    set.add(char);
+
+    maxLength = Math.max(maxLength, right - left + 1)
+}
+return maxLength
+
+```
 
 ## solusi array
 

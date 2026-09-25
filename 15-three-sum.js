@@ -10,18 +10,25 @@ var threeSum = function (nums) {
 
   for (let i = 0; i < n; i++) {
     const a = nums[i];
+    // skip duplicate num
     if (a === nums[i - 1]) continue;
 
-    let left = i + 1,
-      right = n - 1;
+    // karna udah urut, impossible bakal 0 ketika a > 0
+    if (a > 0) continue;
+
+    let left = i + 1;
+    let right = n - 1;
     while (left < right) {
-      const current = a + nums[left] + nums[right];
-      console.log(current, a, nums[left], nums[right]);
+      const b = nums[left];
+      const c = nums[right];
+      const current = a + b + c;
+      //   console.log(current, a, nums[left], nums[right]);
       if (current === 0) {
-        stacks.push([a, nums[left], nums[right]]);
+        stacks.push([a, b, c]);
         left += 1;
 
-        console.log("> ", { left, right }, nums[left], nums[left - 1]);
+        // console.log("> ", { left, right }, nums[left], nums[left - 1]);
+        // skip duplicate num
         while (left < right && nums[left] === nums[left - 1]) {
           left += 1;
         }
