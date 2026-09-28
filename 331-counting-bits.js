@@ -3,19 +3,29 @@
  * @return {number[]}
  */
 var countBits = function (n) {
-  const ans = [0];
+  //   let dp = [[0] * (n + 1)];
+  let dp = [0];
+  let offset = 1;
   for (let i = 1; i <= n; i++) {
-    let counter = 0;
-
-    let num = i;
-    while (num) {
-      counter = num % 2 === 0 ? counter : counter + 1;
-      num = Math.floor(num / 2);
+    if (offset * 2 === i) {
+      offset = i;
     }
-    // console.log({ i, num, result }, result.replaceAll('0', ''))
-    ans.push(counter);
+    dp[i] = 1 + dp[i - offset];
   }
-  return ans;
+  return dp;
+
+  //   for (let i = 1; i <= n; i++) {
+  //     let counter = 0;
+
+  //     let num = i;
+  //     while (num) {
+  //       counter = num % 2 === 0 ? counter : counter + 1;
+  //       num = Math.floor(num / 2);
+  //     }
+  //     // console.log({ i, num, result }, result.replaceAll('0', ''))
+  //     ans.push(counter);
+  //   }
+  //   return ans;
 };
 const testCases = [
   {

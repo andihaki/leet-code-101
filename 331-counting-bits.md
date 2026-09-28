@@ -28,3 +28,20 @@ Explanation:
 # mikir
 
 perlu hitung ada berapa angka 1 dari setiap indeks ke-n. mirip kayak [Number of 1 bits](./191-number-of-1-bits.md), tapi beda dikit disini n = loop `i..n`.
+
+## cara lebih efisien pake dynamic programming
+
+polanya:
+
+```
+indeks  =   binary  => jumlah angka 1 => logic
+0       =   0000    => 0                base case
+1       =   0010    => 1                1 + dp[n-1]
+2       =   0010    => 1                1 + dp[n-2]
+3       =   0011    => 2                1 + dp[n-2]
+4       =   0100    => 1                1 + dp[n-4]
+5       =   0101    => 2                1 + dp[n-4]
+6       =   0110    => 2                1 + dp[n-4]
+7       =   0111    => 3                1 + dp[n-4]
+8       =   1000    => 1                1 + dp[n-8]
+```
