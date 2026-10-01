@@ -29,6 +29,29 @@ var reverseBits2 = function (n) {
   return parseInt(binary, 2);
 };
 
+var reverseBits3 = function (n) {
+  let result = 0;
+  for (let i = 0; i < 32; i++) {
+    // Shift result left to make space for the next bit
+    result = result << 1;
+
+    // Get the last bit of n
+    const bit = n & 1;
+
+    // Put that bit at the right end of result
+    result = result | bit;
+
+    // one liner alternative
+    // result = (result << 1) | (n & 1);
+
+    // Remove the last bit from n using unsigned shift
+    n = n >>> 1;
+  }
+
+  // Convert to unsigned 32-bit integer
+  return result >>> 0;
+};
+
 const testCases = [
   {
     input: 43261596,
@@ -45,7 +68,7 @@ const testCases = [
 ];
 
 testCases.forEach(({ input, expect }) => {
-  const result = reverseBits2(input);
+  const result = reverseBits3(input);
   const isCorrect = result === expect;
   const colorTag = !isCorrect ? "\x1b[31m" : "\x1b[0m";
   const icon = !isCorrect ? "🥶" : "✅";

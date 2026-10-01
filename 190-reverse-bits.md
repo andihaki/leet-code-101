@@ -65,3 +65,19 @@ while (binary.length < 32) {
 }
 return parseInt(binary, 2) // konversi balik dari binary ke number
 ```
+
+# cara cepot
+
+biar hemat memori, sekali looping langsung bisa dapet `result`. pakai bit wise operator (tapi ga wise, bikin pening).
+idenya adalah `result` awalnya = 00000000000000000000000000000000. biar gampang di simplify dari 32 bit ke 4 bit, maka
+result = 0000, n = 0010 => setiap looping geser result ke kiri 1 bit, value nya sesuai `n` paling kanan. puyeng? sama. langsung pseudocode biar lebih kebanyang
+
+```javascript
+            | result                                | n
+logic       | result = (result << 1) | (n & 1);     | n = n >>> 1;
+initial     | 0000                                  | 0010
+iteration-0 | 0000 /* karna n paling kanan = 0 */   | 0001 // geser n ke kanan
+iteration-1 | 0001 /* geser result ke kiri     */   | 0000
+iteration-2 | 0010                                  | 0000
+iteration-3 | 0100                                  | 0000
+```
