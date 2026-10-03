@@ -35,7 +35,7 @@ var numIslands = function (grid) {
   for (let i = 0; i < row; i++) {
     for (let j = 0; j < col; j++) {
       if (grid[i][j] === "1") {
-        console.log({ i, j });
+        // console.log({ i, j });
         islands++;
         dfs(i, j);
       }
