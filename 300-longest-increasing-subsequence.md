@@ -10,7 +10,34 @@ Explanation: The longest increasing subsequence is [2,3,7,101], therefore the le
 
 # solusi dfs depth first search
 
-<!-- dfs(5): 7, j=6: 101>7 → 1+1=2; j=7: 18>7 -->
+dfs = rekursif. base / best case = 1. karna minimal item nya sendiri.
+di-inner loop ganti base case kalo > 1 + dfs(j)
+
+```
+  index:   0   1   2   3   4   5    6   7
+  nums:   10   9   2   5   3   7  101  18
+  dfs:     2   2   4   3   3   2    1   1
+```
+
+How dfs(2) becomes 4:
+nums[2]=2 → 5 → 7 → 101
+dfs(2) = 1 + dfs(3) = 1 + 1 + dfs(5) = 1 + 1 + 1 + dfs(6) = 4
+
+```
+  dfs(2)  nums[2]=2, best=1
+    j=3  5>2 → 1 + dfs(3)
+                dfs(3) nums[3]=5
+                  j=5  7>5 → 1 + dfs(5)
+                             dfs(5) nums[5]=7
+                               j=6 101>7 → 1+1 = 2
+                               j=7  18>7 → 1+1 = 2
+                             return 2
+                return 1+2 = 3
+    j=4  3>2 → 1 + dfs(4) = 1+3 = 4   ← best
+    j=5  7>2 → 1 + dfs(5) = 3
+    ...
+    return 4
+```
 
 # solusi dynamic programming
 
