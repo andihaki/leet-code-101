@@ -14,6 +14,7 @@
 var exist = function (board, word) {
   const row = board.length;
   const col = board[0].length;
+  const visit = new Set();
 
   function dfs(i, j, k) {
     // out of bound
@@ -22,12 +23,13 @@ var exist = function (board, word) {
     // 404
     if (board[i][j] !== word[k]) return false;
 
+    const key = (i, j) => `${i},${j}`;
+    if (visit.has(key(i, j))) return false;
+
     // 200
     if (k === word.length - 1) return true;
 
-    // 4. mark this cell as used, so the walk cannot come back here
-    const letter = board[i][j];
-    board[i][j] = "#";
+    visit.add(key(i, j));
 
     // 5. try the four neighbours for the NEXT letter
     const found =
@@ -36,8 +38,7 @@ var exist = function (board, word) {
       dfs(i, j + 1, k + 1) ||
       dfs(i, j - 1, k + 1);
 
-    // 6. release the cell for other attempts
-    board[i][j] = letter;
+    visit.delete(key(i, j));
     return found;
   }
 
@@ -59,6 +60,9 @@ const testCases = [
   { board: boards, word: "ABCCED", expect: true },
   { board: boards, word: "SEE", expect: true },
   { board: boards, word: "ABCB", expect: false },
+  // Fails if the visited mark is not undone: (1,2) gets used by a dead
+  // attempt and is never released, so the real answer cannot start there.
+  { board: boards, word: "CCB", expect: true },
   { board: boards, word: "A", expect: true },
   { board: boards, word: "Z", expect: false },
   { board: [["A"]], word: "A", expect: true },
