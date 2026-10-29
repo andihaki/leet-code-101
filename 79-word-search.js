@@ -14,7 +14,6 @@
 var exist = function (board, word) {
   const row = board.length;
   const col = board[0].length;
-  const visit = new Set();
 
   function dfs(i, j, k) {
     // out of bound
@@ -23,13 +22,11 @@ var exist = function (board, word) {
     // 404
     if (board[i][j] !== word[k]) return false;
 
-    const key = (i, j) => `${i},${j}`;
-    if (visit.has(key(i, j))) return false;
-
     // 200
     if (k === word.length - 1) return true;
 
-    visit.add(key(i, j));
+    const tempLetter = board[i][j];
+    board[i][j] = "#";
 
     // 5. try the four neighbours for the NEXT letter
     const found =
@@ -38,7 +35,7 @@ var exist = function (board, word) {
       dfs(i, j + 1, k + 1) ||
       dfs(i, j - 1, k + 1);
 
-    visit.delete(key(i, j));
+    board[i][j] = tempLetter;
     return found;
   }
 
