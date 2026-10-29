@@ -12,7 +12,7 @@
  */
 var subsetsWithDup = function (nums) {
   // TODO: write dfs here. You build the core.
-  nums.sort();
+  nums.sort((a, b) => a - b);
   const result = [];
   function dfs(i, path) {
     result.push([...path]);
