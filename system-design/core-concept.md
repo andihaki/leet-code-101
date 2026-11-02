@@ -58,5 +58,16 @@ _saya masih ga mudeng, pake ring dan virtual ring_
 
 ## Cap Theorem
 
+consistency, availability, and partition tolerance.
+
+- consistent: data di replica === master
+- availability: merespon + dengan data yang benar
+- partition tolerance: ketika ada error dikomunikasi antar nodes, apakah akan response (availability) atau reject (consistent).
+
+### Contoh
+
+- CP (consistent partition / Preserving Consistency): ketika 2 customer checkout 1 barang, maka cuma salah satu yang bisa. solusinya ada leader / master inventory stock
+- AP (available partition / Preserving Availability):
+
 last:
-https://algomaster.io/learn/system-design/cap-theorem
+https://algomaster.io/learn/system-design/cap-theorem#9-ca-consistency-and-availability
