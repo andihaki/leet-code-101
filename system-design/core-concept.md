@@ -66,8 +66,9 @@ consistency, availability, and partition tolerance.
 
 ### Contoh
 
-- CP (consistent partition / Preserving Consistency): ketika 2 customer checkout 1 barang, maka cuma salah satu yang bisa. solusinya ada leader / master inventory stock
-- AP (available partition / Preserving Availability):
+- CP (consistent partition / Preserving Consistency): ketika 2 customer checkout 1 barang, maka cuma salah satu yang bisa yang lain reject. solusinya ada leader / master inventory stock
+- AP (available partition / Preserving Availability): dia pakai merge rule, tapi lebih aman / simple CP. kalo AP ga jamin last stock di checkout 1x, harus di-reconcile biar aman.
+- CA (consistency availability): tapi harus single node, kalo distribute system susah karna bisa aja ada link / network issue.
 
 last:
-https://algomaster.io/learn/system-design/cap-theorem#9-ca-consistency-and-availability
+https://algomaster.io/learn/system-design/cap-theorem#10-pacelc-the-trade-off-when-the-network-is-healthy
