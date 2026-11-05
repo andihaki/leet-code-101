@@ -42,11 +42,12 @@ var treeConstructor = function (strs) {
   const childs = {};
 
   for (const pair of strs) {
-    const [child, parent] = pair.replace(/[()]/, "").split(",");
+    const [child, parent] = pair.replace(/[()]/g, "").split(",");
 
     if (!parents[parent]) {
       parents[parent] = [child];
     } else {
+      if (parents[parent].includes(child)) continue;
       parents[parent].push(child);
     }
 
@@ -54,12 +55,37 @@ var treeConstructor = function (strs) {
 
     if (!childs[child]) {
       childs[child] = parent;
-    } else if (childs[child] && childs[child] !== parent) {
+    } else if (
+      childs[child] &&
+      // child n parent combination appeared twice
+      childs[child] !== parent
+    ) {
       return false;
     }
   }
 
-  return true;
+  // buat cek value muncul di parent + child bersamaan. atau ga ada root
+  const roots = Object.keys(parents).filter((id) => !childs[id]);
+  if (roots.length !== 1) return false;
+
+  const total = new Set([...Object.keys(parents), ...Object.keys(childs)]);
+  const queue = [roots[0]];
+  const seen = new Set([roots[0]]);
+
+  // buat cek cycle (loop parent <==> child)
+  while (queue.length) {
+    const node = queue.shift();
+    const kids = parents[node] || [];
+
+    for (const kid of kids) {
+      if (!seen.has(kid)) {
+        queue.push(kid);
+        seen.add(kid);
+      }
+    }
+  }
+
+  return seen.size === total.size;
 };
 
 // ===========================================================================
@@ -119,10 +145,21 @@ const treeCases = [
     in: ["(2,1)", "(3,1)", "(4,2)", "(5,2)", "(6,3)", "(7,3)"],
     expect: true,
   },
+  {
+    label: "same",
+    in: ["(1,2)", "(1,2)", "(1,2)"],
+    expect: true,
+  },
   // 1 and 2 are parents of 3, but 3 is also parent of 1: no root.
   {
     label: "cycle, 2 parents ok",
     in: ["(2,1)", "(3,1)", "(1,3)"],
+    expect: false,
+  },
+  // One root (5), but 1 and 2 sit in a ring away from it. Only reach sees this.
+  {
+    label: "ring beside tree",
+    in: ["(2,1)", "(1,2)", "(4,5)"],
     expect: false,
   },
 ];
@@ -141,6 +178,7 @@ function runGroup(name, cases) {
 }
 
 const g1 = runGroup("L1", localCases);
+// const g1 = { pass: 100 };
 const g2 = runGroup("L2", treeCases);
 
 // ---------------------------------------------------------------------------
@@ -188,9 +226,12 @@ function breakIt(pairs, kind) {
   const maxId = Math.max(...ids);
 
   if (kind === "third child") {
-    const parents = next.map(([, p]) => p);
-    const p = pick(parents);
-    next.push([maxId + 1, p]); // rule 2
+    // Make one parent have exactly 3 children, always a rule-2 break.
+    const counts = new Map();
+    for (const [, par] of next) counts.set(par, (counts.get(par) || 0) + 1);
+    const par = pick([...counts.keys()]);
+    const add = 3 - counts.get(par);
+    for (let k = 1; k <= add; k++) next.push([maxId + k, par]);
   } else if (kind === "second parent") {
     const child = pick(next)[0];
     const other = maxId + 1;
@@ -202,17 +243,16 @@ function breakIt(pairs, kind) {
     const p = next[0][0];
     next.push([root, p]); // rule 3 and 4
   } else if (kind === "orphan") {
-    const leaf = pick(next)[0];
-    next.pop(); // rule 3: a node with no parent appears twice now
-    next.splice(
-      next.findIndex(([c]) => c === leaf),
-      1,
-    );
+    next.push([maxId + 1, maxId + 2]); // rule 3: a second, detached root
+  } else if (kind === "ring") {
+    // a 2-node ring with no root, away from the real tree: only rule 4 sees it
+    next.push([maxId + 1, maxId + 2]);
+    next.push([maxId + 2, maxId + 1]);
   }
   return next;
 }
 
-const kinds = ["third child", "second parent", "cycle", "orphan"];
+const kinds = ["third child", "second parent", "cycle", "orphan", "ring"];
 let oracleFails = 0;
 let rounds = 0;
 
