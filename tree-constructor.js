@@ -62,12 +62,18 @@ var treeConstructor = function (strs) {
   }
 
   // buat cek value muncul di parent + child bersamaan. atau ga ada root
-  const roots = Object.keys(parents).filter((id) => !childs[id]);
-  if (roots.length !== 1) return false;
+  // root = parents yang bukan childs
+  const root = Object.keys(parents).filter((id) => !childs[id]);
+  console.log(strs, parents, root);
+  // strs: [ '(1,2)', '(2,4)', '(5,7)', '(7,2)', '(9,5)' ]
+  // parents:  { '2': [ '1', '7' ],  '4': [ '2' ],  '5': [ '9' ],  '7': [ '5' ] }
+  // root: 2, 4, 5, 7
+  //      drop, keep, drop, drop
+  if (root.length !== 1) return false;
 
   const total = new Set([...Object.keys(parents), ...Object.keys(childs)]);
-  const queue = [roots[0]];
-  const seen = new Set([roots[0]]);
+  const queue = [root[0]];
+  const seen = new Set([root[0]]);
 
   // buat cek cycle (loop parent <==> child)
   while (queue.length) {
