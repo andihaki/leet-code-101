@@ -47,6 +47,7 @@ var treeConstructor = function (strs) {
     if (!parents[parent]) {
       parents[parent] = [child];
     } else {
+      // skip child n parent combination appeared twice
       if (parents[parent].includes(child)) continue;
       parents[parent].push(child);
     }
@@ -55,11 +56,7 @@ var treeConstructor = function (strs) {
 
     if (!childs[child]) {
       childs[child] = parent;
-    } else if (
-      childs[child] &&
-      // child n parent combination appeared twice
-      childs[child] !== parent
-    ) {
+    } else if (childs[child]) {
       return false;
     }
   }
