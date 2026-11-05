@@ -22,10 +22,16 @@ var intersect = function (a, b) {
   // a and b are sorted arrays of numbers, for example [1, 3, 4] and [1, 2, 4].
   // Return a sorted array of the numbers found in both.
   const result = [];
-  const set = new Set([...a]);
+  let i = 0;
+  let j = 0;
 
-  for (const num of set) {
-    if (b.includes(num)) result.push(num);
+  while (i < a.length && j < b.length) {
+    if (a[i] === b[j]) {
+      result.push(a[i]);
+      i++;
+      j++;
+    } else if (a[i] < b[j]) i++;
+    else j++;
   }
 
   return result;
