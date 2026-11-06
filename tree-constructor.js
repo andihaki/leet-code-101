@@ -64,7 +64,7 @@ var treeConstructor = function (strs) {
   // buat cek value muncul di parent + child bersamaan. atau ga ada root
   // root = parents yang bukan childs
   const root = Object.keys(parents).filter((id) => !childs[id]);
-  console.log(strs, parents, root);
+  // console.log(strs, parents, root);
   // strs: [ '(1,2)', '(2,4)', '(5,7)', '(7,2)', '(9,5)' ]
   // parents:  { '2': [ '1', '7' ],  '4': [ '2' ],  '5': [ '9' ],  '7': [ '5' ] }
   // root: 2, 4, 5, 7
