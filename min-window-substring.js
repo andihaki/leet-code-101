@@ -48,6 +48,81 @@ var minWindowSubstring = function (strs) {
   let windowChars = {};
   let l = 0;
 
+  // trrack chartacters matches
+  let have = 0;
+  let need = Object.keys(tChars).length;
+
+  for (let r = 0; r < S; r++) {
+    // Add s[r] into window
+    const char = hay[r];
+    if (!Object.keys(windowChars).includes(char)) {
+      windowChars[char] = 1;
+    } else {
+      windowChars[char] += 1;
+    }
+
+    // if characters match, then increment have
+    if (
+      Object.keys(tChars).includes(char) &&
+      windowChars[char] === tChars[char]
+    ) {
+      have += 1;
+    }
+
+    // when match, shorthen the window
+    while (have === need) {
+      const w = r - l + 1;
+      // valid
+      if (w < minW) {
+        startIndex = l;
+        minW = w;
+      }
+
+      // check if removing hay[l] break the required char
+      const leftChar = hay[l];
+      if (
+        Object.keys(tChars).includes(leftChar) &&
+        windowChars[leftChar] === tChars[leftChar]
+      ) {
+        have -= 1;
+      }
+
+      if (windowChars[leftChar] === 1) {
+        delete windowChars[leftChar];
+      } else {
+        windowChars[leftChar] -= 1;
+      }
+      l += 1;
+    }
+  }
+
+  if (minW === Infinity) return "";
+  else return hay.slice(startIndex, startIndex + minW);
+};
+
+var minWindowSubstringNasty = function (strs) {
+  const [hay, needle] = strs;
+
+  // Return the smallest window of `hay` that holds all of `needle`.
+  const S = hay.length;
+  const T = needle.length;
+
+  if (S < T) return "";
+
+  const tChars = {};
+  for (const c of needle) {
+    if (!Object.keys(tChars).includes(c)) {
+      tChars[c] = 1;
+    } else {
+      tChars[c] += 1;
+    }
+  }
+
+  let minW = Infinity;
+  let startIndex = -1;
+  let windowChars = {};
+  let l = 0;
+
   function valid() {
     for (const key of Object.keys(tChars)) {
       if (!Object.keys(windowChars).includes(key)) {
