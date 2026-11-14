@@ -24,25 +24,33 @@
  */
 
 // The five vowels. You can use this set in your code.
-const VOWELS = new Set(["a", "e", "i", "o", "u"]);
+const VOWELS = new Set("aiueo");
 
 function countVowelSubstrings(word) {
   // Write the count here. Return a number.
-  let counter = 0;
-  if (word.length < VOWELS.size) return 0;
+  let count = 0;
+  let runStart = 0;
+  const last = { a: -1, i: -1, u: -1, e: -1, o: -1};
   
-  for (let i=0; i<word.length; i++) {
-    const seen = new Set();
-    for (let right=i; right < word.length; right++) {
-      const c = word[right];
-      if (!VOWELS.has(c)) break;
-      seen.add(c);
-      if (seen.size === VOWELS.size) counter++;
+  for (let end = 0; end < word.length; end++) {
+    const c = word[end];
+    
+    if (!VOWELS.has(c)) {
+      // consonant reset the run
+      runStart = end + 1;
+      for (const v of VOWELS) last[v] = -1;
+      continue;
     }
+    
+    last[c] = end;
+    const minLast = Math.min(last.a, last.e, last.i, last.u, last.o);
+    
+    // minLast = -1 until all vowels satisfied
+    if (minLast >= runStart) count+= minLast - runStart + 1;
   }
   
   
-  return counter;
+  return count;
 }
 
 // ---------------------------------------------------------------------------
