@@ -68,4 +68,26 @@ class Base {}
 class Derived extends Base {}
 ```
 
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Inheritance_and_the_prototype_chain#different_ways_of_creating_and_mutating_prototype_chains
+# class
+
+## Inheritance
+
+it need `super` to access parent `this`
+
+```
+  constructor(name) {
+    super(name); // call the super class constructor and pass in the name parameter
+  }
+
+  speak() {
+    console.log(`${this.name} barks.`);
+  }
+```
+
+# High Order Function
+
+# last
+
+11
+
+https://eloquentjavascript.net/05_higher_order.html#h-TcUD2vzyMe
