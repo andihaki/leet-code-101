@@ -13,6 +13,49 @@
  */
 var solveNQueens = function (n) {
   // TODO: write dfs here. You build the core.
+  const columns = new Set();
+  const positiveDiagonal = new Set();
+  const negativeDiagonal = new Set();
+  
+  const result = [];
+  let board = Array(n).fill('.')
+  for (let i=0; i<n; i++) {
+    board[i] =  Array(n).fill('.')
+  }
+  
+  function backtrack(row) {
+    if (row === n) {
+      const copy = [];
+      for (let i=0; i<board.length; i++) {
+        copy.push(board[i].join(''))
+      }
+      result.push(copy)
+      return
+    }
+    
+    for (let c=0; c<n; c++) {
+      if (columns.has(c)
+        || (positiveDiagonal.has(row+c))
+        || (negativeDiagonal.has(row-c))) {
+          continue
+        }
+      
+      columns.add(c);
+      positiveDiagonal.add(row+c);
+      negativeDiagonal.add(row-c);
+      board[row][c] = "Q"
+      
+      backtrack(row + 1);
+      
+      columns.delete(c);
+      positiveDiagonal.delete(row+c);
+      negativeDiagonal.delete(row-c);
+      board[row][c] = "."
+    }
+  }
+  
+  backtrack(0)
+  return result
 };
 
 const testCases = [
