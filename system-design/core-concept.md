@@ -71,4 +71,4 @@ consistency, availability, and partition tolerance.
 - CA (consistency availability): tapi harus single node, kalo distribute system susah karna bisa aja ada link / network issue.
 
 last:
-https://algomaster.io/learn/system-design/cap-theorem#10-pacelc-the-trade-off-when-the-network-is-healthy
+<https://algomaster.io/learn/system-design/core-concepts-exercises>
