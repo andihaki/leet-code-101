@@ -3,7 +3,16 @@
  * @return {number}        most money you can take, no two adjacent houses
  */
 var houseRobber = function (nums) {
-  // @todo: your code here
+  let twoBack = 0;
+  let oneBack = 0;
+
+  for (const n of nums) {
+    const takeThis = n + twoBack;
+    const skipThis = oneBack;
+    [twoBack, oneBack] = [oneBack, Math.max(takeThis, skipThis)];
+  }
+
+  return oneBack;
 };
 
 const testCases = [
